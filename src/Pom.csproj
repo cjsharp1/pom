@@ -9,6 +9,8 @@
     <AssemblyTitle>Pom</AssemblyTitle>
     <Product>Pom</Product>
     <Version>1.0.0</Version>
+    <!-- Embeds the tomato icon into Pom.exe so Explorer / shortcuts show it -->
+    <ApplicationIcon>Assets/pom.ico</ApplicationIcon>
   </PropertyGroup>
 
   <!-- Single-file standalone build settings (used by `dotnet publish`) -->
