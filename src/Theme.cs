@@ -48,15 +48,20 @@ public static class Theme
     public static GraphicsPath RoundedRect(Rectangle rect, int radius)
     {
         var path = new GraphicsPath();
-        int d = Math.Max(1, radius * 2);
 
-        // Degenerate to a plain rectangle if the radius cannot fit.
-        if (d > rect.Width || d > rect.Height)
+        // Clamp so a pill-style radius (Height/2) still fits when the
+        // caller insets the rect by 1px for stroke alignment. Falling
+        // back to a sharp rectangle made Start/Reset/mode buttons look
+        // inconsistent with the toggle, slider, and rounded window.
+        int maxRadius = Math.Min(rect.Width, rect.Height) / 2;
+        int r = Math.Clamp(radius, 0, maxRadius);
+        if (r == 0)
         {
             path.AddRectangle(rect);
             return path;
         }
 
+        int d = r * 2;
         path.AddArc(rect.X, rect.Y, d, d, 180, 90);
         path.AddArc(rect.Right - d, rect.Y, d, d, 270, 90);
         path.AddArc(rect.Right - d, rect.Bottom - d, d, d, 0, 90);
